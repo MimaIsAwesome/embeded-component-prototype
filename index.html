@@ -1,44 +1,12 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Popup Test App</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        button {
-            padding: 12px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-    </style>
+    <title>App B (Auth Provider simulation)</title>
 </head>
-
 <body>
-<div>
-    <h1>Embeded component</h1>
-    <button id="popup-btn">Open Popup</button>
-</div>
-
+<div id="app"></div>
 <script type="module" src="/src/main.js"></script>
-
-<script>
-    document.getElementById("popup-btn").addEventListener("click", () => {
-        const popup = window.open(
-            "https://example.com", // change to your test URL
-            "_blank",
-            "width=500,height=500"
-        );
-
-        if (!popup) {
-            alert("Popup blocked! Please allow popups for this site.");
-        }
-    });
-</script>
 </body>
 </html>
