@@ -1,3 +1,67 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8" />-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0" />-->
+<!--    <title>App B - Popup Login Simulation</title>-->
+<!--    <style>-->
+<!--        body { font-family: Arial, sans-serif; padding: 20px; }-->
+<!--        input, button { padding: 8px; font-size: 16px; margin-top: 8px; }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h2>App B - Login Popup Simulation</h2>-->
+<!--<p>This simulates a login flow. Click "Sign In" to generate a JWT and send it to App A.</p>-->
+
+<!--<label>-->
+<!--    User ID:-->
+<!--    <input id="userId" type="text" value="user123"/>-->
+<!--</label>-->
+<!--<br/>-->
+<!--<button id="loginBtn">Sign In</button>-->
+
+<!--<script>-->
+<!--    // Create a simple fake JWT (not for production)-->
+<!--    function makeFakeJwt(payloadObj) {-->
+<!--        const header = { alg: "HS256", typ: "JWT" };-->
+<!--        const base64 = (obj) =>-->
+<!--            btoa(unescape(encodeURIComponent(JSON.stringify(obj))))-->
+<!--                .replace(/\+/g, "-")-->
+<!--                .replace(/\//g, "_")-->
+<!--                .replace(/=+$/, "");-->
+<!--        return `${base64(header)}.${base64(payloadObj)}.signature`;-->
+<!--    }-->
+
+<!--    document.getElementById("loginBtn").addEventListener("click", () => {-->
+<!--        const userId = document.getElementById("userId").value || "user123";-->
+<!--        const now = Math.floor(Date.now() / 1000);-->
+
+<!--        const payload = {-->
+<!--            sub: userId,-->
+<!--            iss: window.location.origin,-->
+<!--            aud: "example-client",-->
+<!--            iat: now,-->
+<!--            exp: now + 3600-->
+<!--        };-->
+
+<!--        const jwt = makeFakeJwt(payload);-->
+
+<!--        // Send JWT to opener (App A)-->
+<!--        if (window.opener && !window.opener.closed) {-->
+<!--            window.opener.postMessage(-->
+<!--                { type: "OAUTH_TOKEN", token: jwt },-->
+<!--                "*" // Replace "*" with App A origin in production-->
+<!--            );-->
+<!--            alert("JWT sent to App A. Closing popup...");-->
+<!--            window.close();-->
+<!--        } else {-->
+<!--            alert("No opener window found. Open this page as a popup from App A.");-->
+<!--        }-->
+<!--    });-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +75,7 @@
 </head>
 <body>
 <h2>App B - Login Popup Simulation</h2>
-<p>This simulates a login flow. Click "Sign In" to generate a JWT and send it to App A.</p>
+<p>Click "Sign In" to set a login cookie for App B.</p>
 
 <label>
     User ID:
@@ -21,43 +85,21 @@
 <button id="loginBtn">Sign In</button>
 
 <script>
-    // Create a simple fake JWT (not for production)
-    function makeFakeJwt(payloadObj) {
-        const header = { alg: "HS256", typ: "JWT" };
-        const base64 = (obj) =>
-            btoa(unescape(encodeURIComponent(JSON.stringify(obj))))
-                .replace(/\+/g, "-")
-                .replace(/\//g, "_")
-                .replace(/=+$/, "");
-        return `${base64(header)}.${base64(payloadObj)}.signature`;
-    }
-
     document.getElementById("loginBtn").addEventListener("click", () => {
         const userId = document.getElementById("userId").value || "user123";
-        const now = Math.floor(Date.now() / 1000);
 
-        const payload = {
-            sub: userId,
-            iss: window.location.origin,
-            aud: "example-client",
-            iat: now,
-            exp: now + 3600
-        };
+        // Set a simple cookie (not secure, just for simulation)
+        // In production, this should be done server-side with Secure/HttpOnly flags
+        const expire = new Date();
+        expire.setTime(expire.getTime() + 60 * 60 * 1000); // 1 hour
+        document.cookie = `auth=${userId}; path=/; expires=${expire.toUTCString()};`;
 
-        const jwt = makeFakeJwt(payload);
+        alert("Login cookie set for App B. Closing popup...");
 
-        // Send JWT to opener (App A)
-        if (window.opener && !window.opener.closed) {
-            window.opener.postMessage(
-                { type: "OAUTH_TOKEN", token: jwt },
-                "*" // Replace "*" with App A origin in production
-            );
-            alert("JWT sent to App A. Closing popup...");
-            window.close();
-        } else {
-            alert("No opener window found. Open this page as a popup from App A.");
-        }
+        // Close the popup
+        window.close();
     });
 </script>
 </body>
 </html>
+
