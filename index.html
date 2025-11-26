@@ -118,12 +118,13 @@
     </style>
 </head>
 <body>
+<div style="color: #aeaeae">Scalesoft</div>
 <p>Pokračovat jako <strong>Ján Omáčka</strong>?</p>
 <button id="loginBtn">Pokračovat</button>
 
 <script>
     document.getElementById("loginBtn").addEventListener("click", () => {
-        const userId = document.getElementById("userId").value || "user123";
+        const userId = document.getElementById("userId").value || "Ján_Omáčka";
 
         // Nastavení jednoduchého cookie (pouze pro simulaci)
         const expire = new Date();
