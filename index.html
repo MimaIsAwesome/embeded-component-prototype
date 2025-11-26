@@ -92,7 +92,7 @@
         // In production, this should be done server-side with Secure/HttpOnly flags
         const expire = new Date();
         expire.setTime(expire.getTime() + 60 * 60 * 1000); // 1 hour
-        document.cookie = `auth=${userId}; path=/; expires=${expire.toUTCString()};`;
+        document.cookie = `ugabugaCookie=${userId}; path=/; expires=${expire.toUTCString()};`;
 
         alert("Login cookie set for App B. Closing popup...");
 
