@@ -124,7 +124,8 @@
 
 <script>
     document.getElementById("loginBtn").addEventListener("click", () => {
-        const userId = document.getElementById("userId").value || "Ján_Omáčka";
+        // No input, just use default username
+        const userId = "Ján_Omáčka";
 
         // Nastavení jednoduchého cookie (pouze pro simulaci)
         const expire = new Date();
