@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Popup Test App</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+<div>
+    <h1>App B – Popup Trigger</h1>
+    <button id="popup-btn">Open Popup</button>
+</div>
+
+<script type="module" src="/src/main.js"></script>
+
+<script>
+    document.getElementById("popup-btn").addEventListener("click", () => {
+        const popup = window.open(
+            "https://example.com", // change to your test URL
+            "_blank",
+            "width=500,height=500"
+        );
+
+        if (!popup) {
+            alert("Popup blocked! Please allow popups for this site.");
+        }
+    });
+</script>
+</body>
+</html>
