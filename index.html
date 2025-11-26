@@ -3,10 +3,61 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>App B (Auth Provider simulation)</title>
+    <title>App B - Popup Login Simulation</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        input, button { padding: 8px; font-size: 16px; margin-top: 8px; }
+    </style>
 </head>
 <body>
-<div id="app"></div>
-<script type="module" src="/src/main.js"></script>
+<h2>App B - Login Popup Simulation</h2>
+<p>This simulates a login flow. Click "Sign In" to generate a JWT and send it to App A.</p>
+
+<label>
+    User ID:
+    <input id="userId" type="text" value="user123"/>
+</label>
+<br/>
+<button id="loginBtn">Sign In</button>
+
+<script>
+    // Create a simple fake JWT (not for production)
+    function makeFakeJwt(payloadObj) {
+        const header = { alg: "HS256", typ: "JWT" };
+        const base64 = (obj) =>
+            btoa(unescape(encodeURIComponent(JSON.stringify(obj))))
+                .replace(/\+/g, "-")
+                .replace(/\//g, "_")
+                .replace(/=+$/, "");
+        return `${base64(header)}.${base64(payloadObj)}.signature`;
+    }
+
+    document.getElementById("loginBtn").addEventListener("click", () => {
+        const userId = document.getElementById("userId").value || "user123";
+        const now = Math.floor(Date.now() / 1000);
+
+        const payload = {
+            sub: userId,
+            iss: window.location.origin,
+            aud: "example-client",
+            iat: now,
+            exp: now + 3600
+        };
+
+        const jwt = makeFakeJwt(payload);
+
+        // Send JWT to opener (App A)
+        if (window.opener && !window.opener.closed) {
+            window.opener.postMessage(
+                { type: "OAUTH_TOKEN", token: jwt },
+                "*" // Replace "*" with App A origin in production
+            );
+            alert("JWT sent to App A. Closing popup...");
+            window.close();
+        } else {
+            alert("No opener window found. Open this page as a popup from App A.");
+        }
+    });
+</script>
 </body>
 </html>
