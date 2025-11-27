@@ -6,7 +6,8 @@
     <style>
         body { font-family: Arial, sans-serif; padding: 20px; }
         .red { color: red; font-weight: bold; }
-        .green { color: green; font-weight: bold; }
+        .green { font-weight: bold; display: flex; align-items: center; gap: 10px; }
+        .green img { width: 24px; height: 24px; } /* adjust size of image */
     </style>
 </head>
 
@@ -22,11 +23,12 @@
         if (event.origin !== "https://mimaisawesome.github.io" &&
             event.origin !== "http://localhost:5173") return;
 
-        if (event.data.type === "AUTH_UPDATE") {
-            const statusDiv = document.getElementById("status");
+        const statusDiv = document.getElementById("status");
 
+        if (event.data.type === "AUTH_UPDATE") {
             if (event.data.loggedIn) {
-                statusDiv.textContent = "Uzivatel je prihlasen jako: " + event.data.user;
+                // Show image and user name
+                statusDiv.innerHTML = `<img src="src/str.png" alt="User"> Uzivatel je prihlasen jako: ${event.data.user}`;
                 statusDiv.className = "green";
             } else {
                 statusDiv.textContent = "Uzivatel neni prihlasen";
