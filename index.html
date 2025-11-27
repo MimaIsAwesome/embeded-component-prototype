@@ -1,79 +1,34 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>App B - Popup Přihlášení</title>
-    <style>
-        body {
-            font-family: "Roboto", Arial, sans-serif;
-            padding: 20px;
-            background: #fff;
-            color: #202124;
-        }
-
-        h2 {
-            font-weight: 400;
-            margin-bottom: 16px;
-        }
-
-        p {
-            margin-bottom: 24px;
-        }
-
-        input {
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #dadce0;
-            border-radius: 4px;
-            width: 250px;
-            margin-top: 8px;
-            outline: none;
-        }
-
-        input:focus {
-            border-color: #1a73e8;
-            box-shadow: 0 1px 2px rgba(26, 115, 232, 0.3);
-        }
-
-        button {
-            margin-top: 16px;
-            padding: 10px 24px;
-            font-size: 16px;
-            font-weight: 500;
-            color: #fff;
-            background-color: #1a73e8;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #1765c1;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <title>Login Popup</title>
 </head>
 <body>
-<div style="color: #aeaeae">Scalesoft</div>
+<div>Scalesoft</div>
 <p>Pokračovat jako <strong>Ján Omáčka</strong>?</p>
 <button id="loginBtn">Pokračovat</button>
 
 <script>
     document.getElementById("loginBtn").addEventListener("click", () => {
-        // No input, just use default username
-        const userId = "Ján_Omáčka";
+        const userId = "Ján_Omáčka";  // your simulated user
 
-        // Nastavení jednoduchého cookie (pouze pro simulaci)
-        const expire = new Date();
-        expire.setTime(expire.getTime() + 60 * 60 * 1000); // 1 hodina
-        document.cookie = `ugabugaCookie=${userId}; path=/; expires=${expire.toUTCString()};`;
+        // Optional: cookie ONLY for popup domain (SameSite=Lax)
+        document.cookie =
+            `popupAuth=${encodeURIComponent(userId)}; path=/; SameSite=Lax;`;
 
-        alert("Přihlašovací cookie nastavena pro App B. Okno se zavře...");
+        // 1. Notify opener (FE)
+        if (window.opener) {
+            window.opener.postMessage({
+                type: "LOGIN_SUCCESS",
+                user: userId
+            }, "*");
+        }
 
-        // Zavřít popup
+        // 2. Close popup
         window.close();
     });
 </script>
+
 </body>
 </html>
-
