@@ -14,7 +14,10 @@
 <div id="status" class="red">Uzivatel neni prihlasen</div>
 
 <script>
-    // ---- Listen for FE -> iframe ----
+    // ---- 1) Ask parent for current login status immediately ----
+    window.parent.postMessage({ type: "REQUEST_AUTH_STATE" }, "*");
+
+    // ---- 2) Receive updates from parent ----
     window.addEventListener("message", (event) => {
         if (event.origin !== "https://mimaisawesome.github.io" &&
             event.origin !== "http://localhost:5173") return;
