@@ -4,18 +4,16 @@
     <meta charset="UTF-8">
     <title>Login Popup</title>
     <style>
-        /* Full-screen dark overlay */
         body {
             margin: 0;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: rgba(0,0,0,0.4); /* semi-transparent dark background */
+            background-color: rgba(0,0,0,0.4);
             font-family: Arial, sans-serif;
         }
-
-        /* Popup box */
+        
         .popup {
             background-color: #fff;
             padding: 30px 40px;
@@ -57,17 +55,17 @@
 <body>
 
 <div class="popup">
-    <h2>Scalesoft</h2>
+    <h2>Portál pacienta</h2>
     <p>Pokračovat jako <strong>Ján Omáčka</strong>?</p>
     <button id="loginBtn">Pokračovat</button>
 </div>
 
 <script>
     document.getElementById("loginBtn").addEventListener("click", () => {
-        const userId = "Ján_Omáčka";  // your simulated user
+        const userId = "Ján_Omáčka";  // simulated user
 
         // Optional: cookie ONLY for popup domain (SameSite=Lax)
-        document.cookie = `popupAuth=${encodeURIComponent(userId)}; path=/; SameSite=Lax;`;
+        document.cookie = `ourLoginCookie=${encodeURIComponent(userId)}; path=/; SameSite=Lax;`;
 
         // Notify opener (FE)
         if (window.opener) {
@@ -76,8 +74,7 @@
                 user: userId
             }, "*");
         }
-
-        // Close popup
+        
         window.close();
     });
 </script>

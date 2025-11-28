@@ -40,13 +40,13 @@
 </div>
 
 <script>
-    // ---- Ask parent for current login status immediately ----
+    // Ask parent - FE - for current login status immediately
     window.parent.postMessage({ type: "REQUEST_AUTH_STATE" }, "*");
 
     const userText = document.getElementById("userText");
     const userImage = document.getElementById("userImage");
 
-    // ---- Receive updates from parent ----
+    // Receive updates from parent - FE 
     window.addEventListener("message", (event) => {
         if (event.origin !== "https://mimaisawesome.github.io" &&
             event.origin !== "http://localhost:5173") return;
